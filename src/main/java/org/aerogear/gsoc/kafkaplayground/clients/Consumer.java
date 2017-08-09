@@ -1,9 +1,9 @@
-package org.aerogear.gsoc.kafkaplayground;
+package org.aerogear.gsoc.kafkaplayground.clients;
 
 import com.eneco.trading.kafka.connect.twitter.domain.TwitterStatus;
 import com.google.common.io.Resources;
 
-import org.aerogear.gsoc.kafkaplayground.utils.GenericDeserializer;
+import org.aerogear.gsoc.kafkaplayground.serialization.GenericDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.Serdes;

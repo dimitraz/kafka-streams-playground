@@ -2,14 +2,13 @@ package org.aerogear.gsoc.kafkaplayground;
 
 
 import com.eneco.trading.kafka.connect.twitter.domain.TwitterStatus;
-import org.aerogear.gsoc.kafkaplayground.utils.GenericDeserializer;
-import org.aerogear.gsoc.kafkaplayground.utils.GenericSerializer;
+import org.aerogear.gsoc.kafkaplayground.serialization.GenericDeserializer;
+import org.aerogear.gsoc.kafkaplayground.serialization.GenericSerializer;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.streams.KafkaStreams;
-import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KStreamBuilder;
@@ -43,7 +42,6 @@ public class TwitterStreams {
                 return new KeyValue<>(value.get("id").toString(), value.get("text").toString());
             }
         }).to(string_serde, string_serde,"wordcount");
-
         KStream<String, TwitterStatus> splitTweets = tweetFeed.map((key, value) -> new KeyValue<>(value.get("id").toString(), value.get("text").toString()));
         splitTweets.to(string_serde, twitter_serde, "test-output");
         */

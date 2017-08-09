@@ -1,4 +1,4 @@
-package org.aerogear.gsoc.kafkaplayground.utils;
+package org.aerogear.gsoc.kafkaplayground.serialization;
 
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;
@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Factory for creating serializers / deserializers.
  */
-public class Serdes {
+public class CustomSerdes {
 
     static protected class WrapperSerde<T> implements Serde<T> {
         final private Serializer<T> serializer;

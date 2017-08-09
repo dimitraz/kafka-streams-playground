@@ -1,4 +1,4 @@
-package org.aerogear.gsoc.kafkaplayground.utils;
+package org.aerogear.gsoc.kafkaplayground.serialization;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

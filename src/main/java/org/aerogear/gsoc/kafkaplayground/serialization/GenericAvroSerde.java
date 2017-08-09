@@ -1,4 +1,4 @@
-package org.aerogear.gsoc.kafkaplayground.utils;
+package org.aerogear.gsoc.kafkaplayground.serialization;
 
 import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
 import org.apache.avro.generic.GenericRecord;
