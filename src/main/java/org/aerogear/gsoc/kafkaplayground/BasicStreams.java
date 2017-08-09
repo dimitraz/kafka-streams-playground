@@ -10,6 +10,11 @@ import org.apache.kafka.streams.kstream.KStreamBuilder;
 
 import java.util.Properties;
 
+/**
+ * Testing basic streams functionality by printing each record in the
+ * <code>produce-users</code> topic, which is "populated" by running the
+ * {@link org.aerogear.gsoc.kafkaplayground.clients.Producer}
+ */
 public class BasicStreams {
 
     public static void main(String[] args) {

@@ -12,8 +12,8 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Simple Kafka Producer class to send messages to a given
- * topic
+ * Simple Kafka Producer to produce messages to the <code>produce-users</code> topic,
+ * which will be consumed later by the {@link org.aerogear.gsoc.kafkaplayground.BasicStreams} class
  *
  *  @author Dimitra Zuccarelli
  */
