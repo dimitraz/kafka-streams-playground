@@ -1,47 +1,17 @@
 package org.aerogear.gsoc.kafkaplayground.serialization;
 
-import org.apache.kafka.common.serialization.Deserializer;
+import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.Serde;
-import org.apache.kafka.common.serialization.Serializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Map;
 
 /**
  * Factory for creating serializers / deserializers.
  */
-public class CustomSerdes {
+public class CustomSerdes extends Serdes {
 
-    static protected class WrapperSerde<T> implements Serde<T> {
-        final private Serializer<T> serializer;
-        final private Deserializer<T> deserializer;
-
-        public WrapperSerde(Serializer<T> serializer, Deserializer<T> deserializer) {
-            this.serializer = serializer;
-            this.deserializer = deserializer;
-        }
-
-        @Override
-        public void configure(Map<String, ?> configs, boolean isKey) {
-            serializer.configure(configs, isKey);
-            deserializer.configure(configs, isKey);
-        }
-
-        @Override
-        public void close() {
-            serializer.close();
-            deserializer.close();
-        }
-
-        @Override
-        public Serializer<T> serializer() {
-            return serializer;
-        }
-
-        @Override
-        public Deserializer<T> deserializer() {
-            return deserializer;
-        }
-    }
+    private static final Logger logger = LoggerFactory.getLogger(CustomSerdes.class);
 
     static public final class GenericSerde<T> extends WrapperSerde<T> {
         public GenericSerde(Class<T> type) {
@@ -49,28 +19,23 @@ public class CustomSerdes {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    static public <T> Serde<T> serdeFrom(Class<T> type) {
-
-        return new GenericSerde<T>(type);
-        // throw new IllegalArgumentException("Unknown class for built-in serializer");
+    static public <T> Serde<T> Generic(Class<T> type) {
+        return new GenericSerde(type);
     }
 
-    /**
-     * Construct a serde object from separate serializer and deserializer
-     *
-     * @param serializer    must not be null.
-     * @param deserializer  must not be null.
-     */
-    static public <T> Serde<T> serdeFrom(final Serializer<T> serializer, final Deserializer<T> deserializer) {
-        if (serializer == null) {
-            throw new IllegalArgumentException("serializer must not be null");
+    static public <T> Serde<T> serdeFrom(Class<T> type) {
+
+        // look up default Kafka SerDes
+        // if the class type is not supported an exception is thrown
+        try {
+            return Serdes.serdeFrom(type);
         }
-        if (deserializer == null) {
-            throw new IllegalArgumentException("deserializer must not be null");
+        // If an exception is thrown, use custom generic serdes
+        catch (IllegalArgumentException e) {
+            logger.warn("Class type is not supported. Using generic serdes");
+            return (Serde<T>) Generic(type);
         }
 
-        return new WrapperSerde<>(serializer, deserializer);
     }
 
 }
